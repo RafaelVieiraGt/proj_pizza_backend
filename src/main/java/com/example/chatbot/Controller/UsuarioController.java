@@ -22,8 +22,13 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.registerUser(user), HttpStatus.CREATED);
     }
 
-    @GetMapping("login")
+    @GetMapping("login/{email}/{senha}")
     public ResponseEntity<Usuario> loginUser(String email, String senha) {
         return new ResponseEntity<>(usuarioService.loginUser(email, senha), HttpStatus.OK);
+    }
+
+    @GetMapping("find/{email}")
+    public ResponseEntity<Usuario> getUser(String email){
+        return new ResponseEntity<>(usuarioService.findUser(email), HttpStatus.OK);
     }
 }

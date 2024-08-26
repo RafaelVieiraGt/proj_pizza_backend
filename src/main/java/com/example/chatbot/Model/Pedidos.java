@@ -20,9 +20,6 @@ public class Pedidos {
     @Column(name = "VALORPEDIDO", nullable = false)
     private Long valorPedido;
 
-    @Column(name = "DESCRICAOPEDIDO", nullable = false)
-    private Long descricaoPedido;
-
     @Column(name = "DATAPEDIDO")
     private Date dataPedido;
 

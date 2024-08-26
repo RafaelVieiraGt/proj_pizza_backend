@@ -3,6 +3,7 @@ package com.example.chatbot.Service;
 import com.example.chatbot.Model.Usuario;
 import com.example.chatbot.Repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -16,7 +17,7 @@ public class UsuarioService {
 
     public Usuario registerUser(Usuario usuario) {
         String password = usuario.getSenha();
-        Usuario userExists = usuarioRepository.findByEmail(usuario.getEmail()).orElse(null);
+        Usuario userExists = findUser(usuario.getEmail());
 
         if (userExists != null)
             throw  new RuntimeException("Usuário já existente, faça login");
@@ -39,5 +40,9 @@ public class UsuarioService {
         user.setActive(1L);
 
         return user;
+    }
+
+    public Usuario findUser(String email) {
+        return usuarioRepository.findByEmail(email).orElse(null);
     }
 }

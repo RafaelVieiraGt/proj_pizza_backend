@@ -18,6 +18,8 @@ public class PedidosService {
 
     private final PedidosRepository pedidosRepository;
     private final PizzaPedidosRepository pizzaPedidosRepository;
+    private final PizzaService pizzaService;
+    private final BebidasService bebidasService;
 
     public Pedidos create(Pedidos pedidos) {
         Integer seqPedido = 1;
@@ -38,8 +40,18 @@ public class PedidosService {
         return pedidosRepository.save(pedidos);
     }
 
-    public List<PizzaPedidos> repetirPedido(Long userId) {
+    public Pedidos repetirPedido(Long userId) {
         Pedidos ultimoPedido = pedidosRepository.getLastOrder(userId).orElseThrow(() -> new RuntimeException("Esse é o primeiro pedido deste usuário"));
-        return pizzaPedidosRepository.getLastOrder(userId, ultimoPedido.getCodigoPedido());
+        List<PizzaPedidos> itens =  pizzaPedidosRepository.getLastOrder(userId, ultimoPedido.getCodigoPedido());
+
+        itens.stream().forEach((i) -> {
+            ItensPedido item = new ItensPedido();
+            item.setPizza(pizzaService.findById(i.getCodigopizza()));
+            item.setBebidas(bebidasService.findById(i.getCodigoBebida()));
+
+            ultimoPedido.getItensPedido().add(item);
+        });
+
+        return ultimoPedido;
     }
 }
