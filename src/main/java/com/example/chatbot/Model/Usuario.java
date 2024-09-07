@@ -13,7 +13,8 @@ import java.util.Date;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "CODIGOUSUARIO")
     private Long codigoUsuario;
 
     @Column(name = "NOMEUSUARIO", nullable = false)
@@ -34,11 +35,9 @@ public class Usuario {
     @Column(name = "TELEFONE")
     private String telefone;
 
-    @Column(name = "NOMECOMPLETOUSUARIO")
-    private String nomeCompletoUsuario;
-
     @Column(name = "ADM")
     private Long adm;
 
+    @Column(name = "ACTIVE")
     private Long active;
 }

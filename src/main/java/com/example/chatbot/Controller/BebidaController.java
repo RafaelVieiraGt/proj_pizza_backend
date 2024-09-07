@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("bebidas")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:3000")
 public class BebidaController {
 
     private final BebidasService bebidasService;

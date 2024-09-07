@@ -17,6 +17,7 @@ public interface PizzaPedidosRepository extends JpaRepository<PizzaPedidos, Long
             "where " +
             "P.usuario  = :usuario and " +
             "PP.codigopedido = P.codigopedido and " +
+            "P.codigopedido = :codigoPedido and " +
             "row_number = 1" +
             "order by P.datapedido desc ")
     List<PizzaPedidos> getLastOrder(@Param("usuario") Long usuario, @Param("codigoPedido") Long codigoPedido);

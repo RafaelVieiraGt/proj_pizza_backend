@@ -1,5 +1,7 @@
 package com.example.chatbot.Service;
 
+import com.example.chatbot.Model.DTO.UserConverter;
+import com.example.chatbot.Model.DTO.UserDTO;
 import com.example.chatbot.Model.Usuario;
 import com.example.chatbot.Repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
@@ -15,19 +17,21 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario registerUser(Usuario usuario) {
-        String password = usuario.getSenha();
+    public Usuario registerUser(UserDTO usuario) {
+        Usuario user = UserConverter.convertToUser(usuario);
         Usuario userExists = findUser(usuario.getEmail());
 
         if (userExists != null)
             throw  new RuntimeException("Usuário já existente, faça login");
 
-        if (password.length() < 6)
+        if (user.getSenha().length() < 6)
             throw new RuntimeException("Senha curta demais!");
 
-        usuario.setSenha(Base64.getEncoder().encodeToString(password.getBytes()));
-
-        return usuarioRepository.save(usuario);
+        user.setSenha(Base64.getEncoder().encodeToString(usuario.getSenha().getBytes()));
+        user.setDataRegistro(new Date());
+        user.setAdm(0L);
+        user.setActive(1L);
+        return usuarioRepository.save(user);
     }
 
     public Usuario loginUser(String email, String senha) {
@@ -36,7 +40,6 @@ public class UsuarioService {
 
         Usuario user = usuarioRepository.findByEmailAndSenha(email, senhaCrypto).orElseThrow(() -> new RuntimeException("Usuario não encontrado, verifique suas credenciais!"));
 
-        user.setDataRegistro(new Date());
         user.setActive(1L);
 
         return user;

@@ -15,7 +15,7 @@ public interface PedidosRepository extends JpaRepository<Pedidos, Long> {
     @Query(nativeQuery = true, value = " SELECT *" +
             "  FROM PEDIDOS P" +
             "  WHERE " +
-            "  P.USUARIO  = :USUARIO" +
+            "  P.USUARIO  = :usuario" +
             "  ORDER BY P.DATAPEDIDO DESC " +
             "  LIMIT 1")
     Optional<Pedidos> getLastOrder(@Param("usuario") Long usuario);
