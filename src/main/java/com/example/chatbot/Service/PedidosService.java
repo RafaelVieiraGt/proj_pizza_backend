@@ -10,6 +10,7 @@ import com.example.chatbot.Repository.PizzaPedidosRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,8 @@ public class PedidosService {
     public Pedidos repetirPedido(Long userId) {
         Pedidos ultimoPedido = pedidosRepository.getLastOrder(userId).orElseThrow(() -> new RuntimeException("Esse é o primeiro pedido deste usuário"));
         List<PizzaPedidos> itens =  pizzaPedidosRepository.getLastOrder(userId, ultimoPedido.getCodigoPedido());
+
+        ultimoPedido.setItensPedido(new ArrayList<>());
 
         itens.stream().forEach((i) -> {
             ItensPedido item = new ItensPedido();

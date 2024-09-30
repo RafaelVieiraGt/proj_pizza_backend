@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "pedidos")
@@ -15,7 +16,6 @@ public class Pedidos {
 
     @Id
     @Column(name = "CODIGOPEDIDO")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long codigoPedido;
 
     @Column(name = "VALORPEDIDO", nullable = false)
@@ -31,4 +31,12 @@ public class Pedidos {
     private Long codigoUsuario;
 
     private transient List<ItensPedido> itensPedido;
+
+    public Pedidos() {
+        this.codigoPedido = gerarId();
+    }
+
+    private Long gerarId() {
+        return Long.valueOf(ThreadLocalRandom.current().nextInt(1000, 10000)); // Gera um número entre 1000 e 9999
+    }
 }
